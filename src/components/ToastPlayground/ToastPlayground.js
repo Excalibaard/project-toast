@@ -27,12 +27,13 @@ function ToastPlayground() {
       </header>
       {isToastVisible && (
         <Toast
-          message={message}
           variant={variant}
           onClose={() => {
             setIsToastVisible(false);
           }}
-        />
+        >
+          {message}
+        </Toast>
       )}
       <form className={styles.controlsWrapper} onSubmit={handleSubmit}>
         <div className={styles.row}>
