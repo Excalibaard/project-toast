@@ -4,13 +4,14 @@ import Button from "../Button";
 import ToastShelf from "../ToastShelf";
 
 import styles from "./ToastPlayground.module.css";
+import { ToastContext } from "../ToastProvider";
 
 const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 
 function ToastPlayground() {
   const [message, setMessage] = React.useState("");
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
-  const [toasts, setToasts] = React.useState([]);
+  const toastContext = React.useContext(ToastContext);
 
   function resetForm() {
     setMessage("");
@@ -19,27 +20,8 @@ function ToastPlayground() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    const id = Math.random();
-    const newToast = { id, message, variant };
-    setToasts([...toasts, newToast]);
+    toastContext.addToast({ message, variant });
     resetForm();
-  }
-
-  function removeToast(id) {
-    try {
-      if (!id) {
-        throw new Error("No ID provided!");
-      }
-      const index = toasts.findIndex((toast) => toast.id === id);
-      if (index == null) {
-        throw new Error("No index found for provided ID!");
-      }
-      const newToasts = toasts.slice(); // shallow copy because we don't change inner data
-      newToasts.splice(index, 1);
-      setToasts(newToasts);
-    } catch (err) {
-      console.warn(err);
-    }
   }
 
   return (
@@ -48,7 +30,7 @@ function ToastPlayground() {
         <img alt="Cute toast mascot" src="/toast.png" />
         <h1>Toast Playground</h1>
       </header>
-      <ToastShelf toasts={toasts} onCloseToast={removeToast}></ToastShelf>
+      <ToastShelf />
       <form className={styles.controlsWrapper} onSubmit={handleSubmit}>
         <div className={styles.row}>
           <label
