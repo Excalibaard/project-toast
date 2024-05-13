@@ -12,10 +12,12 @@ function ToastPlayground() {
   const [message, setMessage] = React.useState("");
   const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
   const toastContext = React.useContext(ToastContext);
+  const formRef = React.useRef();
 
   function resetForm() {
     setMessage("");
     setVariant(VARIANT_OPTIONS[0]);
+    formRef?.current?.[0]?.focus();
   }
 
   function handleSubmit(event) {
@@ -31,7 +33,11 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
       <ToastShelf />
-      <form className={styles.controlsWrapper} onSubmit={handleSubmit}>
+      <form
+        className={styles.controlsWrapper}
+        onSubmit={handleSubmit}
+        ref={formRef}
+      >
         <div className={styles.row}>
           <label
             htmlFor="message"
