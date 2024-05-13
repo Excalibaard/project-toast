@@ -1,12 +1,21 @@
-import React from 'react';
+import React from "react";
 
-import Button from '../Button';
+import Button from "../Button";
 
-import styles from './ToastPlayground.module.css';
+import styles from "./ToastPlayground.module.css";
 
-const VARIANT_OPTIONS = ['notice', 'warning', 'success', 'error'];
+const VARIANT_OPTIONS = ["notice", "warning", "success", "error"];
 
 function ToastPlayground() {
+  const [message, setMessage] = React.useState("");
+  const [variant, setVariant] = React.useState(VARIANT_OPTIONS[0]);
+
+  function handleSubmit(event) {
+    event.preventDefault();
+    const payload = { message, variant };
+    console.log(payload);
+  }
+
   return (
     <div className={styles.wrapper}>
       <header>
@@ -14,48 +23,54 @@ function ToastPlayground() {
         <h1>Toast Playground</h1>
       </header>
 
-      <div className={styles.controlsWrapper}>
+      <form className={styles.controlsWrapper} onSubmit={handleSubmit}>
         <div className={styles.row}>
           <label
             htmlFor="message"
             className={styles.label}
-            style={{ alignSelf: 'baseline' }}
+            style={{ alignSelf: "baseline" }}
           >
             Message
           </label>
           <div className={styles.inputWrapper}>
-            <textarea id="message" className={styles.messageInput} />
+            <textarea
+              id="message"
+              className={styles.messageInput}
+              onInput={(event) => {
+                setMessage(event.target.value);
+              }}
+            />
           </div>
         </div>
 
         <div className={styles.row}>
           <div className={styles.label}>Variant</div>
-          <div
-            className={`${styles.inputWrapper} ${styles.radioWrapper}`}
-          >
-            <label htmlFor="variant-notice">
-              <input
-                id="variant-notice"
-                type="radio"
-                name="variant"
-                value="notice"
-              />
-              notice
-            </label>
-
-            {/* TODO Other Variant radio buttons here */}
+          <div className={`${styles.inputWrapper} ${styles.radioWrapper}`}>
+            {VARIANT_OPTIONS.map((option) => {
+              const optionId = `variant-${option}`;
+              return (
+                <label key={optionId} htmlFor={optionId}>
+                  <input
+                    id={optionId}
+                    type="radio"
+                    name="variant"
+                    value={option}
+                    checked={option === variant}
+                    onChange={(event) => {
+                      setVariant(event.target.value);
+                    }}
+                  />
+                  {option}
+                </label>
+              );
+            })}
           </div>
         </div>
 
-        <div className={styles.row}>
-          <div className={styles.label} />
-          <div
-            className={`${styles.inputWrapper} ${styles.radioWrapper}`}
-          >
-            <Button>Pop Toast!</Button>
-          </div>
+        <div className={`${styles.row} ${styles.submitButtonRow}`}>
+          <Button type="submit">Pop Toast!</Button>
         </div>
-      </div>
+      </form>
     </div>
   );
 }

@@ -57,6 +57,10 @@
   min-height: 3rem;
 }
 
+.submitButtonRow {
+  justify-content: center;
+}
+
 .row:not(:last-of-type) {
   padding-bottom: 16px;
   border-bottom: 1px dotted hsl(250deg 80% 80% / 0.5);
