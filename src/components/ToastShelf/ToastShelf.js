@@ -14,13 +14,13 @@ function ToastShelf() {
       aria-live="polite"
       aria-label="Notification"
     >
-      {toastContext.toasts.map((toast) => {
+      {toastContext?.toasts?.map((toast) => {
         return (
           <li className={styles.toastWrapper} key={toast.id}>
             <Toast
               variant={toast.variant}
               onClose={() => {
-                toastContext.removeToastById(toast.id);
+                toastContext?.removeToastById(toast.id);
               }}
             >
               {toast.message}

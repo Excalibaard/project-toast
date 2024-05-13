@@ -20,7 +20,7 @@ function ToastPlayground() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    toastContext.addToast({ message, variant });
+    toastContext?.addToast({ message, variant });
     resetForm();
   }
 

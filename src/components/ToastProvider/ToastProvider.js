@@ -1,23 +1,10 @@
 import React from "react";
+import useKeyboardShortcut from "../../hooks/useKeyboardShortcut";
 
 export const ToastContext = React.createContext();
 
 function ToastProvider({ children }) {
   const [toasts, setToasts] = React.useState([]);
-
-  React.useEffect(() => {
-    function handleEscape(event) {
-      if (event.code === "Escape") {
-        setToasts([]);
-      }
-    }
-
-    window.addEventListener("keydown", handleEscape);
-
-    return () => {
-      window.removeEventListener("keydown", handleEscape);
-    };
-  }, []);
 
   function addToast({ message, variant }) {
     const id = Math.random();
@@ -41,6 +28,10 @@ function ToastProvider({ children }) {
       console.warn(err);
     }
   }
+
+  useKeyboardShortcut(() => {
+    setToasts([]);
+  }, "Escape");
 
   return (
     <ToastContext.Provider
