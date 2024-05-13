@@ -16,7 +16,7 @@ function useKeyboardShortcut(callback, key) {
 
       function handleKeyDown(event) {
         if (event.key === key) {
-          callback();
+          callback(event);
         }
       }
 
